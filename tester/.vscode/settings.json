@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "mydb",
+            "database": "/Users/diego/Dropbox/FHIR_INTERMEDIATE_MATERIALS/WEEK_3/NEW_ASSIGNMENT/dotnet/fic-server-fix-medication-request/fhirserver_dotnet/fhir-server-CSharp/fhir-server-CSharp/bin/Debug/netcoreapp3.1/persondb.db"
+        }
+    ]
+}
