@@ -133,7 +133,7 @@ module.exports.search = (args, context, logger) => new Promise(async (resolve, r
         }
         // If the _id is a parameter
         if (idx) {
-            criteria.push({ prsn_id: idx });
+            criteria.push({ PRSN_ID: idx });
         }
         var legAllPersons = legPersons;
         // if identifier is a parameter
@@ -205,6 +205,7 @@ module.exports.search = (args, context, logger) => new Promise(async (resolve, r
         });
 
         const bundleResult = GetPractitioners(legFiltered, legPersonIdentifiers, legIdentifierTypes, context, coun, page);
+        console.log(bundleResult);
         const practitionerList = bundleResult?.entry?.filter((entry) => 
             entry?.resource?.identifier?.some((identifier) => identifier?.system?.includes("/NPI"))
         ) || [];

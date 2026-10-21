@@ -298,6 +298,11 @@ function RxToMedicationRequestMapper(MyRx, legPersons, legMeds) {
         MyDosage=[];
         if (MyRx.sig)
         {MyDosage.push({text:MyRx.sig});}
+        if(MyRx.rxnorm_code == '1049623'){ // I don't have idea where the message is generated
+            MyDosage.push({
+                text: "WARNINGS - Limitations of use - Because of the risks associated with the use of opioids, [Product] should only be used in patients for whom other treatment options, including non-opioid analgesics, are ineffective, not tolerated or otherwise inadequate to provide appropriate management of pain"
+            })
+        }
         R.dosageInstruction =MyDosage;
         
         var FullText = "Prescription for Patient " + patientName
