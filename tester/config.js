@@ -2,14 +2,14 @@ const ServerEndpoint = ()=> {
     return "http://localhost:3000/4_0_0/";
 }
 const StudentId= () => {
-    return "kaminker.diego@gmail.com";
+    return "oscaralexander.taures@salud.gob.sv";
 }
 const AssignmentSubmissionFHIRServer = () => {
     return "http://fhirserver.hl7fundamentals.org/fhir";
 }
 
 const StudentName=()=>{
-    return "Diego Kaminker";
+    return "Oscar Alexander Taures Diaz";
 }
 const USCoreValidationServer = () => {
     return "https://hl7int-server.com/server/fhir";

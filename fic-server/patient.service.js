@@ -13,6 +13,7 @@ const getOperationOutcome = require('@asymmetrik/node-fhir-server-core/src/serve
 const getBundleEntry = require('@asymmetrik/node-fhir-server-core/src/server/resources/4_0_0/schemas/bundleentry');
 const legacyApi = require('./legacy_api');
 const identifier_uri = "http://fhirintermediatecourse.org";
+const { mapProcessingError  } = require("./Helpers")
 
 //Meta data for FHIR R4
 let getMeta = (base_version) => {
@@ -40,11 +41,13 @@ module.exports.search = (args, context, logger) => new Promise(async (resolve, r
     let fami = args['family'];
     let gend = args['gender'];
     let birt = args['birthdate'];
+    let email = args['email'];
+    let telecom = args['telecom'];
     let coun = context.req.query['_count'];
     let page = context.req.query['_page'];
     let idx = args['_id'];
     var ErrorMessage = "";
-    const supported = ["base_version","name", "identifier", "family", "gender", "birthdate", "_count", "_page", "_id"];
+    const supported = ["base_version","name", "identifier", "family", "gender", "birthdate", "_count", "_page", "_id", "email", "telecom"];
     
     for (let key of Object.keys(args)) {
         if (supported.includes(key) == false) {
@@ -82,6 +85,32 @@ module.exports.search = (args, context, logger) => new Promise(async (resolve, r
             criteria.push({ PRSN_GENDER: gend });
         }
         // If the birth date is a parameter...
+
+        if(email){
+            criteria.push({ PRSN_EMAIL: email });
+        }
+
+        if(telecom){
+            const telecomSplit = telecom.split("|");
+            let telecomArg = "";
+            let telecomValue = "";
+            if(telecomSplit.length > 1){
+                telecomArg = telecomSplit[0];
+                telecomValue = telecomSplit[1];
+            }else{
+                telecomArg = telecom.includes("@") ? 'email' : 'phone';
+                telecomValue = telecom;
+            }
+            switch (telecomArg) {
+                case 'email':
+                    criteria.push({ PRSN_EMAIL: telecomValue });
+                    break;
+                case 'phone':
+                    //criteria.push({ PRSN_PHONE: telecomValue });
+                    resolve(mapProcessingError("HTTP 501 Not Implemented: The underlying server only handles email addresses for the patients, thus search by system=phone is not implemented"));
+                    break;
+            }
+        }
 
         if (birt) {
             criteria.push({ PRSN_BIRTH_DATE: birt });
