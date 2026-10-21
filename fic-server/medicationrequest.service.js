@@ -277,6 +277,8 @@ function RxToMedicationRequestMapper(MyRx, legPersons, legMeds) {
         RxNormCode = MyRx.rxnorm_code
         R.id = GetFantasyId(PatientId, PrescriberId, PrescriptionDate, RxNormCode);
         R.authoredOn = MyRx.prescription_date;
+        R.status = 'active';
+        R.intent = 'order';
         R.medicationCodeableConcept =
         {
             coding: [{
@@ -290,7 +292,8 @@ function RxToMedicationRequestMapper(MyRx, legPersons, legMeds) {
             display: patientName
         };
         R.requester = {
-            reference: "Practitioner/" + MyRx.prescriber_id
+            reference: "Practitioner/" + MyRx.prescriber_id,
+            display: prescriberName
         }
         MyDosage=[];
         if (MyRx.sig)
